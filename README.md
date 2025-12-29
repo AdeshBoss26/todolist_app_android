@@ -1,16 +1,10 @@
-# todolist_app
+## 📦 Download & Install APK
 
-A new Flutter project.
+👉 [Download app-release.apk](https://github.com/AdeshBoss26/todolist_app_android/raw/main/apk/app-release.apk)
 
-## Getting Started
+### Installation Steps
+1. Click the link above to download the APK.
+2. On your Android phone, go to **Settings → Security**.
+3. Enable **Install from unknown sources**.
+4. Open the downloaded APK and install the app.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
