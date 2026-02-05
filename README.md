@@ -21,7 +21,8 @@ SQLite Database (5 tables)
 
 ## 📦 Download APK
 
-👉 [Download app-release.apk](https://github.com/AdeshBoss26/todolist_app_android/raw/main/apk/app-release.apk)
+👉👉 [Download app-release.apk](https://github.com/AdeshBoss26/todolist_app_android/raw/main/apk/app-release.apk)
+
 
 
 Install Steps
