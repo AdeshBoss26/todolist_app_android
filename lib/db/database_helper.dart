@@ -2,7 +2,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseHelper {
-  // Singleton
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   factory DatabaseHelper() => _instance;
   DatabaseHelper._internal();
@@ -21,12 +20,13 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
     );
   }
 
-  Future _onCreate(Database db, int version) async {
+  Future<void> _onCreate(Database db, int version) async {
+    // 1️⃣ USERS TABLE
     await db.execute('''
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,6 +35,7 @@ class DatabaseHelper {
       )
     ''');
 
+    // 2️⃣ TASKS TABLE
     await db.execute('''
       CREATE TABLE tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,15 +46,48 @@ class DatabaseHelper {
         FOREIGN KEY (userId) REFERENCES users(id)
       )
     ''');
+
+    // 3️⃣ PROFILE TABLE
+    await db.execute('''
+      CREATE TABLE profile (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER,
+        fullName TEXT,
+        email TEXT,
+        phone TEXT,
+        FOREIGN KEY (userId) REFERENCES users(id)
+      )
+    ''');
+
+    // 4️⃣ SETTINGS TABLE
+    await db.execute('''
+      CREATE TABLE settings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER,
+        darkMode INTEGER,
+        notifications INTEGER,
+        FOREIGN KEY (userId) REFERENCES users(id)
+      )
+    ''');
+
+    // 5️⃣ APP INFO TABLE
+    await db.execute('''
+      CREATE TABLE app_info (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        appName TEXT,
+        version TEXT,
+        developer TEXT
+      )
+    ''');
   }
 
-  // Insert User
+  // ---------- EXISTING METHODS (unchanged) ----------
+
   Future<int> insertUser(Map<String, dynamic> row) async {
     final db = await database;
     return await db.insert('users', row);
   }
 
-  // Validate Login
   Future<Map<String, dynamic>?> validateUser(
       String username, String password) async {
     final db = await database;
@@ -65,13 +99,11 @@ class DatabaseHelper {
     return res.isNotEmpty ? res.first : null;
   }
 
-  // Insert Task
   Future<int> insertTask(Map<String, dynamic> row) async {
     final db = await database;
     return await db.insert('tasks', row);
   }
 
-  // Get Tasks by User
   Future<List<Map<String, dynamic>>> getTasks(int userId,
       {bool completed = false}) async {
     final db = await database;
@@ -82,15 +114,15 @@ class DatabaseHelper {
     );
   }
 
-  // Update Task
   Future<int> updateTask(int id, Map<String, dynamic> row) async {
     final db = await database;
-    return await db.update('tasks', row, where: 'id = ?', whereArgs: [id]);
+    return await db.update('tasks', row,
+        where: 'id = ?', whereArgs: [id]);
   }
 
-  // Delete Task
   Future<int> deleteTask(int id) async {
     final db = await database;
-    return await db.delete('tasks', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('tasks',
+        where: 'id = ?', whereArgs: [id]);
   }
 }

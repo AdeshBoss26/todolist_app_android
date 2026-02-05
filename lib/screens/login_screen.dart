@@ -1,16 +1,20 @@
+import 'package:todo_sqlite_app/screens/register_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:todo_sqlite_app/db/database_helper.dart';
-import 'home_screen.dart';
-import 'register_screen.dart';
+import 'package:todo_sqlite_app/screens/home_screen.dart';
+import 'package:todo_sqlite_app/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   void _login() async {
     final username = _usernameController.text.trim();
@@ -18,7 +22,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter both username and password')),
+        const SnackBar(
+          content: Text('Please enter both username and password'),
+        ),
       );
       return;
     }
@@ -34,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid credentials')),
+        const SnackBar(content: Text('Invalid credentials')),
       );
     }
   }
@@ -42,33 +48,35 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
               controller: _usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username'),
             ),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _login,
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => RegisterScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const RegisterScreen(),
+                  ),
                 );
               },
-              child: Text('Don\'t have an account? Register'),
+              child: const Text("Don't have an account? Register"),
             ),
           ],
         ),

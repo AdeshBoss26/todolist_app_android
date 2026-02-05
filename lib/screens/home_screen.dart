@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'add_task_screen.dart';
-import 'completed_tasks_screen.dart';
 import 'package:todo_sqlite_app/db/database_helper.dart';
+import 'package:todo_sqlite_app/screens/add_task_screen.dart';
+import 'package:todo_sqlite_app/screens/completed_tasks_screen.dart';
+import 'package:todo_sqlite_app/screens/profile_screen.dart';
+import 'package:todo_sqlite_app/screens/settings_screen.dart';
+import 'package:todo_sqlite_app/screens/task_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final int userId;
-  HomeScreen({required this.userId});
+
+  const HomeScreen({Key? key, required this.userId}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -42,37 +46,85 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Tasks'),
+        title: const Text('My Tasks'),
         actions: [
+          // PROFILE
           IconButton(
-            icon: Icon(Icons.check_circle),
+            icon: const Icon(Icons.person),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CompletedTasksScreen(userId: widget.userId),
+                  builder: (_) => ProfileScreen(userId: widget.userId),
+                ),
+              );
+            },
+          ),
+
+          // SETTINGS
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SettingsScreen(),
+                ),
+              );
+            },
+          ),
+
+          // COMPLETED TASKS
+          IconButton(
+            icon: const Icon(Icons.check_circle),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      CompletedTasksScreen(userId: widget.userId),
                 ),
               );
             },
           ),
         ],
       ),
-      body: ListView.builder(
+
+      body: tasks.isEmpty
+          ? const Center(child: Text('No tasks added'))
+          : ListView.builder(
         itemCount: tasks.length,
         itemBuilder: (context, index) {
           final task = tasks[index];
+
           return ListTile(
             title: Text(task['title']),
             subtitle: Text(task['description'] ?? ''),
+
+            // ✅ TASK DETAILS (FIXED)
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TaskDetailsScreen(
+                    title: task['title'],
+                    description: task['description'] ?? '',
+                  ),
+                ),
+              );
+            },
+
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: Icon(Icons.done, color: Colors.green),
+                  icon:
+                  const Icon(Icons.done, color: Colors.green),
                   onPressed: () => _markAsDone(task['id']),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
+                  icon:
+                  const Icon(Icons.delete, color: Colors.red),
                   onPressed: () => _deleteTask(task['id']),
                 ),
               ],
@@ -80,8 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(
             context,

@@ -1,16 +1,57 @@
-# todolist_app
+To-Do List Android App (Flutter)
 
-A new Flutter project.
+A simple Flutter-based To-Do List Android application developed as a college project.
+The app supports user login, task management, and includes static and dynamic screens using SQLite.
 
-## Getting Started
+✨ Features
 
-This project is a starting point for a Flutter application.
+User Login & Registration
 
-A few resources to get you started if this is your first Flutter project:
+Add, View, Delete Tasks
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Completed Tasks & Task Details
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Profile & Settings
+
+Static Screens: Help, Contact, Privacy, About
+
+SQLite Database (5 tables)
+
+📦 Download APK
+
+👉 https://github.com/AdeshBoss26/todolist_app_android/raw/main/apk/app-release.apk
+
+Install Steps
+
+Download the APK
+
+Enable Install from unknown sources
+
+Install and open the app
+
+🗂️ Database
+
+users
+
+tasks
+
+profile
+
+settings
+
+app_info
+
+🛠️ Tech Used
+
+Flutter
+
+Dart
+
+SQLite
+
+Android Studio
+
+👨‍💻 Developer
+
+Adesh Merukar
+(Academic Project)
