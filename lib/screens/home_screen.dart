@@ -115,15 +115,26 @@ class _HomeScreenState extends State<HomeScreen> {
               ).then((_) => _loadTasks());
             },
 
+            // ✅ REPLACED TRAILING AS INSTRUCTION
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.done, color: Colors.green),
+                  icon: Icon(Icons.edit, color: Colors.blue),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                          Text('Edit Task feature coming soon')),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.done, color: Colors.green),
                   onPressed: () => _markAsDone(task['id']),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
+                  icon: Icon(Icons.delete, color: Colors.red),
                   onPressed: () => _deleteTask(task['id']),
                 ),
               ],
