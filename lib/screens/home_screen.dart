@@ -107,24 +107,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (_) => TaskDetailsScreen(
+                    taskId: task['id'],
                     title: task['title'],
                     description: task['description'] ?? '',
                   ),
                 ),
-              );
+              ).then((_) => _loadTasks());
             },
 
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon:
-                  const Icon(Icons.done, color: Colors.green),
+                  icon: const Icon(Icons.done, color: Colors.green),
                   onPressed: () => _markAsDone(task['id']),
                 ),
                 IconButton(
-                  icon:
-                  const Icon(Icons.delete, color: Colors.red),
+                  icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () => _deleteTask(task['id']),
                 ),
               ],

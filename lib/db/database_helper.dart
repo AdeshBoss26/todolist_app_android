@@ -99,6 +99,30 @@ class DatabaseHelper {
     return res.isNotEmpty ? res.first : null;
   }
 
+  // ✅ STEP 1 — Add new methods here
+
+  // Get user by ID
+  Future<Map<String, dynamic>?> getUserById(int id) async {
+    final db = await database;
+    final res = await db.query(
+      'users',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return res.isNotEmpty ? res.first : null;
+  }
+
+  // Update username
+  Future<int> updateUser(int id, String username) async {
+    final db = await database;
+    return await db.update(
+      'users',
+      {'username': username},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
   Future<int> insertTask(Map<String, dynamic> row) async {
     final db = await database;
     return await db.insert('tasks', row);
