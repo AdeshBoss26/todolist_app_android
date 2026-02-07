@@ -5,6 +5,7 @@ import 'package:todo_sqlite_app/screens/completed_tasks_screen.dart';
 import 'package:todo_sqlite_app/screens/profile_screen.dart';
 import 'package:todo_sqlite_app/screens/settings_screen.dart';
 import 'package:todo_sqlite_app/screens/task_details_screen.dart';
+import 'package:todo_sqlite_app/screens/edit_task_screen.dart'; // ✅ ADD THIS
 
 class HomeScreen extends StatefulWidget {
   final int userId;
@@ -48,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('My Tasks'),
         actions: [
-          // PROFILE
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
@@ -60,8 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-
-          // SETTINGS
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -73,8 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-
-          // COMPLETED TASKS
           IconButton(
             icon: const Icon(Icons.check_circle),
             onPressed: () {
@@ -97,47 +93,70 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           final task = tasks[index];
 
-          return ListTile(
-            title: Text(task['title']),
-            subtitle: Text(task['description'] ?? ''),
+          return Card(
+            margin:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: ListTile(
+              title: Text(
+                task['title'],
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(task['description'] ?? ''),
 
-            // ✅ TASK DETAILS (FIXED)
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => TaskDetailsScreen(
-                    taskId: task['id'],
-                    title: task['title'],
-                    description: task['description'] ?? '',
+              // 🔍 Task Details
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => TaskDetailsScreen(
+                      taskId: task['id'],
+                      title: task['title'],
+                      description: task['description'] ?? '',
+                    ),
                   ),
-                ),
-              ).then((_) => _loadTasks());
-            },
+                ).then((_) => _loadTasks());
+              },
 
-            // ✅ REPLACED TRAILING AS INSTRUCTION
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit, color: Colors.blue),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content:
-                          Text('Edit Task feature coming soon')),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.done, color: Colors.green),
-                  onPressed: () => _markAsDone(task['id']),
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _deleteTask(task['id']),
-                ),
-              ],
+              // ✅ EDIT / DONE / DELETE
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ✏️ EDIT TASK (REAL)
+                  IconButton(
+                    icon:
+                    const Icon(Icons.edit, color: Colors.blue),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => EditTaskScreen(
+                            taskId: task['id'],
+                            title: task['title'],
+                            description:
+                            task['description'] ?? '',
+                          ),
+                        ),
+                      ).then((_) => _loadTasks());
+                    },
+                  ),
+
+                  // ✔ DONE
+                  IconButton(
+                    icon: const Icon(Icons.done,
+                        color: Colors.green),
+                    onPressed: () =>
+                        _markAsDone(task['id']),
+                  ),
+
+                  // 🗑 DELETE
+                  IconButton(
+                    icon: const Icon(Icons.delete,
+                        color: Colors.red),
+                    onPressed: () =>
+                        _deleteTask(task['id']),
+                  ),
+                ],
+              ),
             ),
           );
         },
